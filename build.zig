@@ -4,12 +4,16 @@ pub fn build(b: *std.build.Builder) void {
     var target = b.standardTargetOptions(.{});
     target.cpu_arch = .x86_64;
     target.os_tag = .windows; 
-    target.abi = .msvc;
+    target.abi = null;
 
     const mode = .ReleaseSafe;
     
     const exe = b.addExecutable("WindowKiller", "src/main.zig");
     exe.setTarget(target);
+    exe.linkLibC();
+    exe.linkSystemLibrary("msvcrt");
+    exe.linkSystemLibrary("user32");
+    exe.linkSystemLibrary("kernel32");
     exe.setBuildMode(mode);
     exe.install();
 
