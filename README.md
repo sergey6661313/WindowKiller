@@ -1,2 +1,2 @@
-(under construct)
-Just press "p" 3 times from one second and ontop window killed.
+(under construct v.0.0.1)
+Just press "p" three times for kill ontop window.

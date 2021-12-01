@@ -14,6 +14,9 @@ pub fn build(b: *std.build.Builder) void {
     exe.linkSystemLibrary("msvcrt");
     exe.linkSystemLibrary("user32");
     exe.linkSystemLibrary("kernel32");
+    //exe.linkSystemLibrary("WS2_32");
+    //exe.linkSystemLibrary("Shell32");
+    //exe.linkSystemLibrary("winmm");
     exe.setBuildMode(mode);
     exe.install();
 
