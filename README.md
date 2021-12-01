@@ -1,2 +1,1 @@
-(under construct v.0.0.1)
-Just press "p" three times for collapse ontop window.
+Just press "p" button 4 times for collapse ontop window.
