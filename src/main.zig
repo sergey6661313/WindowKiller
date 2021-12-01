@@ -33,7 +33,7 @@ fn Keyboard_Proc(nCode: c_int, wParam: c_ulonglong, lParam: c_longlong) callconv
         if(times[0] + times[1] + times[2] < 1500) {
             const window = c.GetForegroundWindow();
             std.log.info("window = {x}", .{@ptrToInt(window)});
-            _ = c.CloseWindow(window);
+            _ = c.EndTask(window, 0, 1);
         }
     }}
     return c.CallNextHookEx(null, nCode, wParam, lParam);
