@@ -31,33 +31,11 @@ fn Keyboard_Proc(nCode: c_int, wParam: c_ulonglong, lParam: c_longlong) callconv
         last_time = current_time;
 
         if(times[0] + times[1] + times[2] < 1500) {
-            std.log.info("here we are", .{});
-            //const window = findWindoWOnTop(); // TODO find ontop window
-            //killWindow(window);               // TODO kill ontop window
+            const window = c.GetForegroundWindow();
+            std.log.info("window = {x}", .{@ptrToInt(window)});
+            _ = c.CloseWindow(window);
         }
     }}
-    
-    std.log.info(
-        \\
-        \\wParam,         = {}
-        \\lParam,         = {}
-        \\vkCode,         = {}
-        \\scanCode,       = {}
-        \\flags,          = {} 
-        \\time,           = {} 
-        \\dwExtraInfo,    = {} 
-        \\ - - - - - - - - - - - -
-    ,.{
-        wParam,
-        lParam,
-        ptr_hook_struct.vkCode,
-        ptr_hook_struct.scanCode,
-        ptr_hook_struct.flags, 
-        ptr_hook_struct.time, 
-        ptr_hook_struct.dwExtraInfo, 
-    });
-    
-
     return c.CallNextHookEx(null, nCode, wParam, lParam);
 }
 
