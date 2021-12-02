@@ -1,2 +1,2 @@
-Simple shrinker of all window in Windows.
-Just press "p" three times for shrink all window.
+Simple killer of all fullscreen windows for MS Windows.
+Just press "p" three times for kill window.
