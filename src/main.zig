@@ -13,27 +13,33 @@ pub const c = @cImport({
 
 
 var working: bool = true;
-var last_time: c_ulong = 0;
-var times: [3]c_ulong = .{1000}**3;
+var times: [3]c_ulong = .{0}**3;
 var pos: u8 = 0;
 var hook: c.HHOOK = undefined;
 const key = 80;
+
+fn EnumWindowsProc(hwnd: *allowzero c.struct_HWND__, lParam: c_longlong) callconv(.C) c_int {
+    _ = lParam;
+    var str: [255]c_ushort = undefined;
+    _ = c.GetWindowTextW(hwnd, &str, 255);
+    //_ = c.EndTask(hwnd, 0, 1);
+    if(c.IsWindowVisible(hwnd) > 0) _ = c.CloseWindow(hwnd);
+    return 1;
+}
 
 fn Keyboard_Proc(nCode: c_int, wParam: c_ulonglong, lParam: c_longlong) callconv(.C) c_longlong {
     const lParam_as_usize = @intCast(usize, lParam);
     const ptr_hook_struct = @intToPtr(*c.KBDLLHOOKSTRUCT, lParam_as_usize);
 
     if (ptr_hook_struct.vkCode == key) { // совпадает номер клавиши
-    if (wParam % 2 == 1) {               // клавиша нажата
+    if (wParam & 1 == 1) {               // клавиша нажата
         const current_time = ptr_hook_struct.time;
+        times[pos] = current_time;
         pos = (pos + 1) % 3;
-        times[pos] = current_time - last_time;
-        last_time = current_time;
 
-        if(times[0] + times[1] + times[2] < 1500) {
-            const window = c.GetForegroundWindow();
-            std.log.info("window = {x}", .{@ptrToInt(window)});
-            _ = c.EndTask(window, 0, 1);
+        if(current_time-times[pos] < 1500) {
+            std.log.info("Hello ",.{});
+            _ = c.EnumWindows(EnumWindowsProc, 0);
         }
     }}
     return c.CallNextHookEx(null, nCode, wParam, lParam);

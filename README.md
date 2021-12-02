@@ -1,3 +1,2 @@
-Simple killer of top window in Windows.
-Just press "p" button 4 times for kill ontop window.
-(not work with stuning wreckfest game :( )
+Simple shrinker of all window in Windows.
+Just press "p" three times for shrink all window.
